@@ -1,0 +1,20 @@
+{
+  name Come Come Pizza,
+  short_name ComeComePizza,
+  description Delivery de pizzas no Residencial Pinheiros - São LuísMA,
+  icons [
+    {
+      src faviconandroid-chrome-192x192.png,
+      sizes 192x192,
+      type imagepng
+    },
+    {
+      src faviconandroid-chrome-512x512.png,
+      sizes 512x512,
+      type imagepng
+    }
+  ],
+  theme_color #E74C3C,
+  background_color #FFFFFF,
+  display standalone
+}

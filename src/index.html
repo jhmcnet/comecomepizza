@@ -100,6 +100,9 @@
         }
     </script>
 
+    <!-- Elfsight Google Reviews -->
+    <script src="https://elfsightcdn.com/platform.js" async></script>
+
     <style>
         :root {
             --vermelho: #E74C3C;
@@ -740,10 +743,8 @@
         <h2>O que nossos clientes dizem</h2>
         
         <div class="google-reviews-container">
-            <div class="google-reviews-widget">
-                <div id="google-reviews"></div>
-            </div>
-            
+            <div class="elfsight-app-7d753efb-3676-4c1c-9def-592e3957c157" data-elfsight-app-lazy></div>
+
             <a href="https://search.google.com/local/writereview?placeid=ChIJMXocMQuR9gcRu1sNoYz3wmA" 
                class="google-reviews-link" 
                target="_blank"
@@ -792,9 +793,6 @@
         </div>
     </footer>
 
-    <!-- API Google Maps -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQrzBOyrLKwOrQWPU0Bpnxdr1WCbWPNFw&libraries=places"></script>
-    
     <script>
         // Função para copiar cupom
         document.querySelector('.cupom').addEventListener('click', function() {
@@ -854,91 +852,8 @@
             }
         });
 
-        // Função para carregar avaliações do Google
-        function loadGoogleReviews() {
-            const placeId = 'ChIJMXocMQuR9gcRu1sNoYz3wmA';
-            
-            const service = new google.maps.places.PlacesService(document.createElement('div'));
-            
-            service.getDetails({
-                placeId: placeId,
-                fields: ['name', 'rating', 'reviews', 'user_ratings_total']
-            }, function(place, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    const reviewsContainer = document.getElementById('google-reviews');
-                    
-                    // Cabeçalho com avaliação geral
-                    reviewsContainer.innerHTML = `
-                        <div style="text-align: center; margin-bottom: 20px;">
-                            <div style="font-size: 1.8rem; color: #FFD700; margin-bottom: 5px;">
-                                ${place.rating} ★
-                            </div>
-                            <div style="color: #555;">
-                                Baseado em ${place.user_ratings_total} avaliações
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Mostra as 3 avaliações mais recentes
-                    if (place.reviews && place.reviews.length > 0) {
-                        const reviewsToShow = place.reviews.slice(0, 3);
-                        
-                        reviewsToShow.forEach(review => {
-                            const reviewDate = new Date(review.time * 1000).toLocaleDateString('pt-BR');
-                            
-                            reviewsContainer.innerHTML += `
-                                <div class="review-item">
-                                    <div class="review-header">
-                                        <img src="${review.profile_photo_url || 'https://via.placeholder.com/50'}" 
-                                             alt="${review.author_name}" 
-                                             class="review-avatar">
-                                        <div>
-                                            <div class="review-author">${review.author_name}</div>
-                                            <div class="review-stars">
-                                                ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="review-text">
-                                        "${review.text}"
-                                    </p>
-                                    <div class="review-date">
-                                        ${reviewDate}
-                                    </div>
-                                </div>
-                            `;
-                        });
-                    } else {
-                        reviewsContainer.innerHTML += `
-                            <p style="text-align: center; color: #555;">
-                                Nenhuma avaliação disponível no momento.
-                            </p>
-                        `;
-                    }
-                } else {
-                    console.error('Erro ao carregar avaliações:', status);
-                    document.getElementById('google-reviews').innerHTML = `
-                        <p style="text-align: center; color: #555;">
-                            As avaliações não puderam ser carregadas. 
-                            <a href="https://search.google.com/local/writereview?placeid=ChIJMXocMQuR9gcRu1sNoYz3wmA" 
-                               style="color: var(--vermelho);">
-                                Clique aqui para deixar sua avaliação
-                            </a>
-                        </p>
-                    `;
-                }
-            });
-        }
-
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            // Carrega as avaliações se a API estiver disponível
-            if (typeof google !== 'undefined') {
-                loadGoogleReviews();
-            } else {
-                console.warn('API Google não carregada');
-            }
-
             // Rastreia a página inicial
             trackEvent('page_view', {
                 'page_title': document.title,
